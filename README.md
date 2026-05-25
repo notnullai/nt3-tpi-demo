@@ -103,12 +103,9 @@ Every weight change you see in the chart above happened **on a single GPU, in re
 
 If you're working in **neuromorphic hardware**, **edge AI**, **adaptive control**, or **next-generation AI architectures** and any of the above resonates, I'd like to talk.
 
-- **DM on X** — [@your_handle]
-- **Email** — [your.email@domain]
-- **LinkedIn** — [linkedin.com/in/your-profile]
+- **DM on X** — @KHALM_Labs
+- **Email** — contact@khalm.ai
 
 I'm happy to share more detailed technical results, walk through the architecture in depth, demo live, or discuss commercial / research collaboration under NDA.
 
 ---
-
-*Built solo — currently iterating fast. This document captures day 7 of a 90-day build sprint. Updates posted regularly.*
