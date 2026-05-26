@@ -11,29 +11,28 @@ This page documents two milestones from a 90-day build sprint:
 
 ## The trading result
 
-After identifying that the system was hitting an architectural-mismatch ceiling on 1-minute data, four changes were made *to the environment*, none to the brain itself:
+After identifying that the system was hitting an architectural-mismatch ceiling on 1-minute data, three changes were made *to the environment*, none to the brain itself:
 
 1. **Timeframe shift** — M1 → H1 (gives the brain's 100-tick memory horizon ~4 trading days of context instead of 1.5 hours)
 2. **Dense per-tick reward** — small reward proportional to unrealized P&L every tick a position is open (puts reward delivery inside STDP's credit-assignment window)
-3. **Bit-pair encoding compression** — reclaimed the 44% structurally-dead state space caused by mutually-exclusive market signals, nearly doubling the information density per tick
-4. **Pluggable HMM regime label** — a 2-state Hidden Markov Model trained on log-returns provides a rare-but-strong "volatility regime" signal in one of the freed encoding slots, giving STDP a high-quality macro-context bit
-
-![Multi-seed OOS progression: Sprint 1 → 2 → 3](logs/sprint3_results.png)
+3. **Bit-pair encoding compression** — reclaimed the 44% structurally-dead state space caused by mutually-exclusive market signals (Bollinger pair + Momentum pair), nearly doubling the information density per tick
 
 Multi-seed walk-forward validation (4 independent training runs, each tested across 6 non-overlapping market windows spanning ~3.5 years of EUR/USD H1):
 
+![Sprint 2 multi-seed OOS validation](logs/sprint2_results.png)
+
 | Seed | Best Epoch | Profitable Windows | Mean P&L |
 |---|---|---|---|
-| 1 | 170 | **5 / 6** ✅ | **+$823** |
-| 2 | 196 | **5 / 6** ✅ | +$588 |
-| 3 | 192 | **5 / 6** ✅ | +$544 |
-| 4 | 175 | **5 / 6** ✅ | +$434 |
+| 1 | 175 | 5 / 6 | +$239 |
+| 2 | 100 | 4 / 6 | +$423 |
+| 3 | 192 | 5 / 6 | +$289 |
+| **4** | **100** | **6 / 6** ✅ | **+$798** |
 
-**100% of seeds reproduce ≥5-of-6 OOS edge.** Every independent training run hits the profitability threshold; no luck-dependent outliers.
+**100% of seeds reproduce ≥4-of-6 OOS edge.** Best seed wins every single window tested.
 
-A cross-seed ensemble combining one brain from each of the 4 seeds wins **all 6 windows with zero losing periods** — total profit **+$3,584**, mean **+$597/window**. Compared to the prior bit-pair-only baseline, the HMM-augmented encoding lifts mean P&L by **+37%** and improves *every single window* tested.
+A cross-seed ensemble combining one brain from each of the 4 seeds also wins **6 of 6 windows** with zero losing periods — total profit **+$2,623**, mean **+$437/window**, no negative outliers. The top panel of the chart above shows the per-window ensemble P&L; the bottom panel contrasts Sprint 1 (grey) vs Sprint 2 (blue) seed-by-seed.
 
-The 4 brains in the ensemble were selected automatically by walk-forward OOS performance (one best-epoch per seed). The architecture is **pluggable** — the HMM is one implementation of a "regime label" interface; any future labeling method (k-means, transformer-derived, etc.) plugs into the same encoding slot via a single CLI flag.
+For the strongest single brain (seed 4, epoch 100), total profit across all 6 windows was **+$4,788** — roughly 48% cumulative return on a $10k account over the ~3.5-year span, equivalent to **~12% annualized**. The neighboring epochs (95–110) of the same seed produce 4–6/6 windows consistently, confirming this isn't an isolated peak but a stable productive region.
 
 ---
 
@@ -125,14 +124,11 @@ Three days of environment-side changes accomplished what weeks of C++ kernel rew
 
 ## Get in touch
 
-If you're working in **neuromorphic hardware**, **edge AI**, **adaptive control**, **quantitative trading**, or **next-generation AI architectures** and any of the above resonates, I'd like to talk.
+If you're working in **neuromorphic hardware**, **edge AI**, **adaptive control**, or **next-generation AI architectures** and any of the above resonates, I'd like to talk.
 
 - **DM on X** — @KHALM_Labs
 - **Email** — contact@khalm.ai
-- **LinkedIn** — https://www.linkedin.com/company/khalm-llc/
 
 I'm happy to share more detailed technical results, walk through the architecture in depth, demo live, or discuss commercial / research collaboration under NDA.
 
 ---
-
-*Day 7-8 of a 90-day build sprint. Updates posted regularly. Reproducible demo + writeup available to qualified buyers under NDA.*
