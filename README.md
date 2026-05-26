@@ -19,6 +19,8 @@ After identifying that the system was hitting an architectural-mismatch ceiling 
 
 Multi-seed walk-forward validation (4 independent training runs, each tested across 6 non-overlapping market windows spanning ~3.5 years of EUR/USD H1):
 
+![Sprint 2 multi-seed OOS validation](logs/sprint2_results.png)
+
 | Seed | Best Epoch | Profitable Windows | Mean P&L |
 |---|---|---|---|
 | 1 | 175 | 5 / 6 | +$239 |
@@ -28,7 +30,7 @@ Multi-seed walk-forward validation (4 independent training runs, each tested acr
 
 **100% of seeds reproduce ≥4-of-6 OOS edge.** Best seed wins every single window tested.
 
-A cross-seed ensemble combining one brain from each of the 4 seeds also wins **6 of 6 windows** with zero losing periods — total profit **+$2,623**, mean **+$437/window**, no negative outliers.
+A cross-seed ensemble combining one brain from each of the 4 seeds also wins **6 of 6 windows** with zero losing periods — total profit **+$2,623**, mean **+$437/window**, no negative outliers. The top panel of the chart above shows the per-window ensemble P&L; the bottom panel contrasts Sprint 1 (grey) vs Sprint 2 (blue) seed-by-seed.
 
 For the strongest single brain (seed 4, epoch 100), total profit across all 6 windows was **+$4,788** — roughly 48% cumulative return on a $10k account over the ~3.5-year span, equivalent to **~12% annualized**. The neighboring epochs (95–110) of the same seed produce 4–6/6 windows consistently, confirming this isn't an isolated peak but a stable productive region.
 
